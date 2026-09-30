@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dlv"
+version = "0.1.0"
+description = "Verilog module -> Verilator + nanobind -> importable Python module"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = ["nanobind", "jinja2", "argcomplete", "rich", "numpy"]
+
+[project.scripts]
+dlv = "dlv.cli:main"
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dlv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
