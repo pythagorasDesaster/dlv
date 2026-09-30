@@ -10,7 +10,23 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
+authors = [{ name = "Thomas Kirchner", email = "thomas.kirchner5@web.de" }]
+keywords = ["verilog", "verilator", "nanobind", "simulation", "hdl", "fpga"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+]
 dependencies = ["nanobind", "jinja2", "argcomplete", "rich", "numpy"]
+
+[project.urls]
+Homepage = "https://github.com/pythagorasDesaster/dlv"
+Source = "https://git.cloud.servinpythagoras.online/thomas/dlv"
+Issues = "https://github.com/pythagorasDesaster/dlv/issues"
 
 [project.scripts]
 dlv = "dlv.cli:main"

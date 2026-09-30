@@ -151,9 +151,10 @@ struct Model {
 };
 
 // Default instance behind the module-level functions, created on first use.
+Model* g_dflt = nullptr;
 Model& dflt() {
-    static Model* m = new Model();
-    return *m;
+    if (!g_dflt) g_dflt = new Model();
+    return *g_dflt;
 }
 
 }  // namespace
@@ -179,5 +180,8 @@ NB_MODULE({{ top }}, m) {
     m.def("get", [] { return dflt().get(); });
     m.def("step", [](size_t n, nb::dict d) { return dflt().step(n, d); }, "n"_a, "inputs"_a = nb::dict());{% if trace %}
     m.def("trace_open", [](const std::string& p) { dflt().trace_open(p); }, "path"_a);
-    m.def("trace_close", [] { dflt().trace_close(); });{% endif %}
+    m.def("trace_close", [] { dflt().trace_close(); });
+    // Flush the default instance's FST at interpreter exit.
+    m.def("_atexit", [] { if (g_dflt) g_dflt->trace_close(); });
+    nb::module_::import_("atexit").attr("register")(m.attr("_atexit"));{% endif %}
 }

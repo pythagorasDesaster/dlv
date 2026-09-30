@@ -13,6 +13,7 @@ $ dlv build counter.v --clock clk -o out/
 
 ## Requirements
 
+- Linux only (the extension is built with `g++`; macOS/Windows are not supported yet)
 - Python ≥ 3.10
 - `verilator` ≥ 5.022 in `PATH` (ports are read with `verilator --json-only`)
 - `g++` (C++17) in `PATH`
@@ -85,9 +86,9 @@ The module name is the Verilog module name. `Model()` creates an independent sim
 | `cycle_ris(n=1)` / `cycle_fal(n=1)` | `n` more clock periods |
 | `get()` | `{output: int}` for all outputs |
 | `step(n, inputs={})` | `n` rising-edge clock periods in a C++ loop. `inputs` maps names to array-likes of length `n` (or length 1 = constant). Returns `{output: numpy array}` (uint8/16/32/64 by width), sampled after each period. |
-| `trace_open(path)` / `trace_close()` | Only with `--trace`: write an FST waveform. Call `trace_close()` to flush. |
+| `trace_open(path)` / `trace_close()` | Only with `--trace`: write an FST waveform. The default instance's trace is closed automatically at exit; call `trace_close()` on your own `Model()` instances. |
 
-Ports up to 64 bits are Python `int`s. The clock cannot be set via `inputs`. Don't mix `_ris` and `_fal` calls on the same instance unless you accept an extra clock edge when switching.
+Ports up to 64 bits are Python `int`s. Values are always unsigned, also for `signed` ports (convert yourself, e.g. two's complement). The clock cannot be set via `inputs`. Don't mix `_ris` and `_fal` calls on the same instance unless you accept an extra clock edge when switching.
 
 ## Shell completion
 
